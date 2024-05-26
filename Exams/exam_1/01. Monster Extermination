@@ -1,0 +1,25 @@
+from collections import deque
+
+armor_monsters = deque([int(x) for x in input().split(',')])
+soldier_striking = [int(x) for x in input().split(',')]
+
+killed_monsters = 0
+while armor_monsters and soldier_striking:
+    current_armor = armor_monsters.popleft()
+    current_soldier = soldier_striking.pop()
+    if current_soldier >= current_armor:
+        killed_monsters += 1
+        current_soldier -= current_armor
+        if soldier_striking:
+            soldier_striking[-1] += current_soldier
+        elif not soldier_striking and current_soldier > 0:
+            soldier_striking.append(current_soldier)
+    else:
+        current_armor -= current_soldier
+        armor_monsters.append(current_armor)
+
+if not armor_monsters:
+    print("All monsters have been killed!")
+if not soldier_striking:
+    print("The soldier has been defeated.")
+print(f"Total monsters killed: {killed_monsters}")
